@@ -5,7 +5,7 @@ import com.csbuild.security.model.User;
 import com.csbuild.security.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+// import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -15,13 +15,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    // @Autowired
+    // private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private UserRepository userRepository;
 
     // Oauth 로그인 후 후처리 함수
+    // 함수 종료시 @AuthenticationPrincipal 어노테이션 생성
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         System.out.println("AccessToken"+ userRequest.getAccessToken());
@@ -36,7 +37,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         String provider = userRequest.getClientRegistration().getClientId();
         String providerId = oauth2User.getAttribute("sub");
         String username = provider+"_"+providerId; // ex) google_000000001
-        String password = bCryptPasswordEncoder.encode("뭘적죠");; // 순환참조오류 발생
+        // String password = bCryptPasswordEncoder.encode("뭘적죠");; // 순환참조오류 발생
         String email = oauth2User.getAttribute("email");
         String role = "ROLE_USER";
 
@@ -46,7 +47,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         if(userEntity == null){
             userEntity = User.builder()
                 .username(username)
-                .password(password)
+                // .password(password)
                 .email(email)
                 .role(role)
                 .provider(provider)

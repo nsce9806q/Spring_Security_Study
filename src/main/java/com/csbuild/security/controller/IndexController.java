@@ -60,8 +60,8 @@ public class IndexController {
     }
 
     @GetMapping("/user")
-    public String user() {
-        return "user";
+    public @ResponseBody User user(@AuthenticationPrincipal PrincipalDetails principalDetails)  {
+        return principalDetails.getUser();
     }
 
     @GetMapping("/admin")
